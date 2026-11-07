@@ -1,0 +1,102 @@
+name: SSE-WS
+
+on:
+  push:
+    branches:
+      - video
+    paths:
+      - "sse-ws/**"
+      - ".github/workflows/sse-ws.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: sse-ws
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          cache: npm
+          cache-dependency-path: sse-ws/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: sse-ws
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          cache: npm
+          cache-dependency-path: sse-ws/package-lock.json
+      - run: npm ci
+      - run: npm test
+
+  build:
+    needs: [eslint, test]
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          cache: npm
+          cache-dependency-path: sse-ws/package-lock.json
+      - name: Build chat page
+        working-directory: sse-ws
+        run: |
+          npm ci
+          npm run build
+      - name: Build helpdesk page
+        working-directory: http
+        run: |
+          npm ci
+          npm run build
+      - name: Build events page
+        working-directory: events
+        run: |
+          yarn
+          yarn build
+      - name: Assemble site
+        working-directory: .
+        run: |
+          mkdir -p site/http site/sse-ws
+          cp -a events/dist/. site/
+          cp -a http/dist/. site/http/
+          cp -a sse-ws/dist/. site/sse-ws/
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
