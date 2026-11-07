@@ -1,0 +1,256 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #fff;
+  color: #222;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+.helpdesk {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+
+.helpdesk__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  min-height: 42px;
+  margin-bottom: 18px;
+}
+
+.helpdesk__tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.helpdesk__error {
+  margin: 0;
+  color: #9d1c1c;
+}
+
+.helpdesk__error[hidden],
+.spinner[hidden],
+.modal[hidden],
+.modal__form[hidden],
+.modal__hint[hidden] {
+  display: none;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d0d0d0;
+  border-top-color: #222;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.button {
+  border: 1px solid #222;
+  border-radius: 999px;
+  background: #fff;
+  padding: 8px 22px;
+  cursor: pointer;
+}
+
+.button:hover,
+.ticket__icon:hover,
+.ticket__check:hover {
+  background: #f7f7f7;
+}
+
+.button:focus-visible,
+.ticket__icon:focus-visible,
+.ticket__check:focus-visible,
+.ticket__main:focus-visible {
+  outline: 2px solid #222;
+  outline-offset: 2px;
+}
+
+.tickets {
+  border: 1px solid #222;
+}
+
+.tickets__empty {
+  margin: 0;
+  padding: 18px 16px;
+}
+
+.ticket + .ticket {
+  border-top: 1px solid #222;
+}
+
+.ticket__main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ticket__check,
+.ticket__icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #222;
+  border-radius: 50%;
+  background: #fff;
+  padding: 0;
+  cursor: pointer;
+}
+
+.ticket__check svg {
+  display: none;
+}
+
+.ticket__check[aria-pressed="true"] svg {
+  display: block;
+}
+
+.ticket__name {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  padding: 0;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ticket--done .ticket__name {
+  text-decoration: line-through;
+}
+
+.ticket__date {
+  flex: 0 0 auto;
+  color: #444;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.ticket__icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.ticket__description {
+  padding: 0 72px 16px 58px;
+  white-space: pre-wrap;
+  line-height: 1.45;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.modal__dialog {
+  position: relative;
+  width: min(460px, calc(100% - 32px));
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+  padding: 22px 22px 18px;
+}
+
+.modal__title {
+  margin: 0 0 18px;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid #222;
+  border-radius: 2px;
+  padding: 6px 8px;
+  resize: vertical;
+}
+
+.modal__text {
+  margin: 0 0 22px;
+  line-height: 1.45;
+}
+
+.modal__hint {
+  margin: 0 0 10px;
+  color: #9d1c1c;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+@media (max-width: 680px) {
+  .helpdesk {
+    padding: 16px 12px 32px;
+  }
+
+  .ticket__main {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .ticket__date {
+    width: 100%;
+    padding-left: 44px;
+  }
+
+  .ticket__description {
+    padding-right: 16px;
+  }
+}

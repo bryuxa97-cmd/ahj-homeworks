@@ -1,5 +1,11 @@
 # Домашнее задание к занятию "7. Работа с HTTP"
 
+![CI](https://github.com/bryuxa97-cmd/ahj-homeworks/actions/workflows/http.yml/badge.svg)
+
+Демо: [GitHub Pages](https://bryuxa97-cmd.github.io/ahj-homeworks/http/)
+
+Заявки приходят с локального сервера. В папке `http`: `npm install`, затем `npm run server` (порт 7070) и `npm start` (порт 8080).
+
 Правила сдачи задания:
 
 1. **Важно**: в рамках этого ДЗ нужно использовать npm (а значит, никакого `yarn.lock` в репозитории быть не должно)

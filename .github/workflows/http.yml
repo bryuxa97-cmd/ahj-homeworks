@@ -1,0 +1,90 @@
+name: HTTP
+
+on:
+  push:
+    branches:
+      - video
+    paths:
+      - "http/**"
+      - "events/**"
+      - ".github/workflows/http.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: http
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          cache: npm
+          cache-dependency-path: http/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          cache: npm
+          cache-dependency-path: http/package-lock.json
+      - run: npm ci
+      - run: npm test
+
+  build:
+    needs: [eslint, test]
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          cache: npm
+          cache-dependency-path: http/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: Build events page
+        working-directory: events
+        run: |
+          yarn
+          yarn build
+      - name: Assemble site
+        working-directory: .
+        run: |
+          mkdir -p site/http
+          cp -a events/dist/. site/
+          cp -a http/dist/. site/http/
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
