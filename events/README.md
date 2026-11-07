@@ -1,5 +1,9 @@
 # Домашнее задание к занятию "3.Обработка событий"
 
+![CI](https://github.com/bryuxa97-cmd/ahj-homeworks/actions/workflows/events.yml/badge.svg)
+
+Демо: [GitHub Pages](https://bryuxa97-cmd.github.io/ahj-homeworks/)
+
 Правила сдачи задания:
 
 1. **Важно**: в рамках этого ДЗ нужно использовать менеджер пакетов yarn (а значит, никакого `package-lock.json` в репозитории быть не должно)

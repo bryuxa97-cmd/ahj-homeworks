@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Поймай гоблина</title>
+  </head>
+  <body>
+    <main class="game">
+      <header class="hud">
+        <h1>Поймай гоблина</h1>
+        <p class="stats">
+          Счёт: <strong data-role="score">0</strong>
+          <span class="stats__gap">Промахи: <strong data-role="misses">0</strong>/5</span>
+        </p>
+      </header>
+      <div class="board" role="grid" aria-label="Игровое поле"></div>
+      <div class="overlay hidden" data-role="message">
+        <p class="overlay__title">Игра окончена</p>
+        <p>Пять гоблинов успели спрятаться.</p>
+        <p>Ваш счёт: <strong data-role="final-score">0</strong></p>
+        <button type="button" class="restart" data-role="restart">Играть снова</button>
+      </div>
+    </main>
+  </body>
+</html>
