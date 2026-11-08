@@ -84,13 +84,19 @@ jobs:
         run: |
           yarn
           yarn build
+      - name: Build animations page
+        working-directory: anim
+        run: |
+          npm ci
+          npm run build
       - name: Assemble site
         working-directory: .
         run: |
-          mkdir -p site/http site/sse-ws
+          mkdir -p site/http site/sse-ws site/anim
           cp -a events/dist/. site/
           cp -a http/dist/. site/http/
           cp -a sse-ws/dist/. site/sse-ws/
+          cp -a anim/dist/. site/anim/
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
