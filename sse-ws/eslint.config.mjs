@@ -11,7 +11,6 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        __WS_URL__: "readonly",
       },
     },
   },

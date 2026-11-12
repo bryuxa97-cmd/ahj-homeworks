@@ -139,7 +139,7 @@ function createServer() {
     socket.on("close", () => sockets.delete(socket));
   });
 
-  const wss = new WebSocketServer({ server: httpServer });
+  const wss = new WebSocketServer({ server: httpServer, path: "/chat" });
   const heartbeat = setInterval(() => {
     for (const socket of wss.clients) {
       if (socket.isAlive === false) {

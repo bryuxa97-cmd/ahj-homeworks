@@ -10,5 +10,12 @@ module.exports = merge(common, {
     compress: true,
     hot: true,
     port: 8080,
+    proxy: [
+      {
+        context: ["/chat"],
+        target: "http://localhost:7070",
+        ws: true,
+      },
+    ],
   },
 });
