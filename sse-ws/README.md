@@ -1,5 +1,7 @@
 # Домашнее задание к занятию "8. EventSource, Websockets"
 
+![CI](https://github.com/bryuxa97-cmd/ahj-homeworks/actions/workflows/sse-ws.yml/badge.svg)
+
 Правила сдачи задания:
 
 1. **Важно**: в рамках этого ДЗ можно использовать любой менеджер пакетов
