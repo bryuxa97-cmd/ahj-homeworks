@@ -1,4 +1,5 @@
 const { merge } = require("webpack-merge");
+const { attachChat } = require("./server");
 const common = require("./webpack.common");
 
 module.exports = merge(common, {
@@ -10,12 +11,9 @@ module.exports = merge(common, {
     compress: true,
     hot: true,
     port: 8080,
-    proxy: [
-      {
-        context: ["/chat"],
-        target: "http://localhost:7070",
-        ws: true,
-      },
-    ],
+    setupMiddlewares(middlewares, devServer) {
+      if (devServer.server) attachChat(devServer.server);
+      return middlewares;
+    },
   },
 });

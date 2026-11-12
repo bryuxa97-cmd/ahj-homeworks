@@ -126,19 +126,11 @@ function createChat() {
   return { onMessage, remove };
 }
 
-function createServer() {
+function attachChat(httpServer) {
+  if (httpServer.chatAttached) return;
+  httpServer.chatAttached = true;
+
   const chat = createChat();
-  const httpServer = http.createServer((req, res) => {
-    res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
-    res.end("ok");
-  });
-
-  const sockets = new Set();
-  httpServer.on("connection", (socket) => {
-    sockets.add(socket);
-    socket.on("close", () => sockets.delete(socket));
-  });
-
   const wss = new WebSocketServer({ server: httpServer, path: "/chat" });
   const heartbeat = setInterval(() => {
     for (const socket of wss.clients) {
@@ -166,6 +158,21 @@ function createServer() {
     clearInterval(heartbeat);
     wss.close();
   });
+}
+
+function createServer() {
+  const httpServer = http.createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+    res.end("ok");
+  });
+
+  const sockets = new Set();
+  httpServer.on("connection", (socket) => {
+    sockets.add(socket);
+    socket.on("close", () => sockets.delete(socket));
+  });
+
+  attachChat(httpServer);
 
   httpServer.closeSockets = () => {
     for (const socket of sockets) socket.destroy();
@@ -181,4 +188,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createServer };
+module.exports = { createServer, attachChat };
