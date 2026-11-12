@@ -2,6 +2,8 @@
 
 ![CI](https://github.com/bryuxa97-cmd/ahj-homeworks/actions/workflows/sse-ws.yml/badge.svg)
 
+Демо: [GitHub Pages](https://bryuxa97-cmd.github.io/ahj-homeworks/sse-ws/)
+
 Правила сдачи задания:
 
 1. **Важно**: в рамках этого ДЗ можно использовать любой менеджер пакетов
